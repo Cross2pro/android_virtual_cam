@@ -67,30 +67,27 @@ Created `.github/workflows/README.md` containing workflow overview, secret setup
 1. ✅ 验证签名密钥配置 / Validate signing secrets
 2. ✅ 如果配置完整，构建签名 APK / Build signed APK if configured
 3. ✅ 验证 APK 已生成 / Verify APK was generated
-4. ✅ 提取版本信息 / Extract version information
-5. ✅ **上传 Artifact** / **Upload Artifact**
-   - 命名: `android-virtual-cam-v{version}-signed`
-   - 包含签名的 APK 文件
+4. ℹ️ **不上传 Artifact** / **No Artifact Upload**
+   - 节省存储空间和构建时间 / Saves storage space and build time
+   - 仅用于 CI/CD 验证 / Only for CI/CD validation
 
 ### 推送标签时 / On Tag Push
-1. ✅ 执行所有上述步骤 / Execute all above steps
-2. ✅ **创建 GitHub Release** / **Create GitHub Release**
+1. ✅ 执行所有构建步骤 / Execute all build steps
+2. ✅ 提取版本信息 / Extract version information
+3. ✅ **创建 GitHub Release** / **Create GitHub Release**
    - Release 名称: `Android Virtual Cam v{version}`
    - 附带详细的双语说明
-   - 包含签名的 APK 下载
+   - **直接附加 APK 文件供下载** / **APK file directly attached for download**
+   - APK 可以直接安装，无需解压 / APK can be installed directly without unzipping
 
 ## 使用方法 / Usage
 
-### 获取 Artifacts / Get Artifacts
-```bash
-# 推送代码
-git push origin main
+### 获取 APK / Get APK
 
-# 然后访问：
-# GitHub → Actions → 选择运行 → Artifacts 部分下载
-```
+APK 仅在创建 Release 时可用：
 
-### 创建 Release / Create Release
+APK is only available when creating a Release:
+
 ```bash
 # 1. 更新版本号（app/build.gradle）
 versionCode 29
@@ -102,7 +99,22 @@ git commit -m "Bump version to 4.5"
 git tag v4.5
 git push origin main v4.5
 
-# 3. 自动创建 Release，包含签名 APK
+# 3. 自动创建 Release，包含可直接下载安装的签名 APK
+# APK file will be directly attached to the Release for easy download
+```
+
+### 开发和测试 / Development and Testing
+
+普通的推送和 PR 会触发构建验证，但不会生成可下载的 APK：
+
+Regular pushes and PRs trigger build validation but do not generate downloadable APK:
+
+```bash
+# 推送代码（仅验证构建）
+git push origin main
+
+# 构建会运行，但不会上传 Artifact
+# Build will run but no artifacts will be uploaded
 ```
 
 ### 手动运行 / Manual Run
@@ -162,10 +174,12 @@ Ensure all required secrets are configured in GitHub repository settings, test w
 ## 结论 / Conclusion
 
 工作流现在能够：
-✅ 在每次成功构建后上传签名 APK 作为 Artifact
-✅ 在推送标签时自动创建包含签名 APK 的 Release
-✅ 提供清晰的版本信息和双语说明
-✅ 支持手动触发以便测试
-✅ 包含完整的文档和故障排除指南
+✅ 在每次推送时验证构建（不生成 Artifact）/ Validate builds on every push (without generating Artifacts)
+✅ 在推送标签时自动创建包含签名 APK 的 Release / Automatically create Releases with signed APK on tag push
+✅ 提供清晰的版本信息和双语说明 / Provide clear version info and bilingual notes
+✅ 支持手动触发以便测试 / Support manual triggers for testing
+✅ 包含完整的文档和故障排除指南 / Include complete documentation and troubleshooting guide
+✅ APK 文件直接附加到 Release，无需解压即可下载安装 / APK files directly attached to Releases, downloadable and installable without unzipping
+✅ 节省存储空间，避免不必要的 Artifact 生成 / Save storage space by avoiding unnecessary Artifact generation
 
-Workflow now successfully uploads signed APK as Artifact after every build, automatically creates Releases with signed APK on tag push, provides clear version info and bilingual notes, supports manual triggers, and includes complete documentation.
+Workflow now validates builds on every push without generating Artifacts, automatically creates Releases with signed APK on tag push, provides clear version info and bilingual notes, supports manual triggers, includes complete documentation, attaches APK files directly to Releases for easy download and installation, and saves storage space by avoiding unnecessary Artifact generation.

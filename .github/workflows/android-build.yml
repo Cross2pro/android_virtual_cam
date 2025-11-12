@@ -83,7 +83,7 @@ jobs:
           ls -lh app/build/outputs/apk/release/
 
       - name: Get version info
-        if: steps.signing.outputs.signing_ready == 'true'
+        if: steps.signing.outputs.signing_ready == 'true' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
         id: version
         run: |
           VERSION_NAME=$(grep "versionName" app/build.gradle | awk '{print $2}' | tr -d '"')
@@ -91,14 +91,6 @@ jobs:
           echo "version_name=${VERSION_NAME}" >> "$GITHUB_OUTPUT"
           echo "version_code=${VERSION_CODE}" >> "$GITHUB_OUTPUT"
           echo "Version: ${VERSION_NAME} (${VERSION_CODE})"
-
-      - name: Upload signed APK artifact
-        if: steps.signing.outputs.signing_ready == 'true'
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-virtual-cam-v${{ steps.version.outputs.version_name }}-signed
-          path: app/build/outputs/apk/release/app-release.apk
-          if-no-files-found: error
 
       - name: Publish signed APK to GitHub Release
         if: steps.signing.outputs.signing_ready == 'true' && github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
