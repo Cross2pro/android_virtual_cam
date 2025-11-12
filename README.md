@@ -1,8 +1,9 @@
-# android_virtual_cam
+# android_VCAM-Revise
+原作者[@w2016561536](https://github.com/w2016561536/android_virtual_cam)
 
 [简体中文](./README.md) | [繁體中文](./README_tc.md) | [English](./README_en.md)
 
-[![Android Build](https://github.com/w2016561536/android_virtual_cam/workflows/Android%20Build/badge.svg)](https://github.com/w2016561536/android_virtual_cam/actions)
+[![Android Build](https://github.com/Cross2pro/android_virtual_cam/workflows/Android%20Build/badge.svg)](https://github.com/Cross2pro/android_virtual_cam/actions)
 [![Version](https://img.shields.io/badge/version-4.4-blue.svg)](https://github.com/w2016561536/android_virtual_cam/releases)
 [![Platform](https://img.shields.io/badge/platform-Android%205.0%2B-green.svg)](https://github.com/w2016561536/android_virtual_cam)
 
@@ -175,6 +176,7 @@ cd android_virtual_cam
 
 ## 🙏 致谢
 
+- @w2016561536 [原项目](https://github.com/w2016561536/android_virtual_cam)
 - 提供HOOK思路：[CameraHook](https://github.com/wangwei1237/CameraHook)
 - H264硬解码：[Android-VideoToImages](https://github.com/zhantong/Android-VideoToImages)
 - JPEG转YUV：[博客文章](https://blog.csdn.net/jacke121/article/details/73888732)
